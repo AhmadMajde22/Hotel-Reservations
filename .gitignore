@@ -179,4 +179,5 @@ mlruns/
 logs/
 __pycache__/
 Hotel_Reservations.egg-info/
+.vscode/
 >>>>>>> 1ad0dc7 (Commit the files)
