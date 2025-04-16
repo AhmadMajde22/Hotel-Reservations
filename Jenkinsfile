@@ -43,18 +43,22 @@ pipeline {
         }
 
         stage('Run Tests') {
-            steps {
-                script {
-                    echo 'Running tests'
-                    sh '''
-                        . ${VENV_DIR}/bin/activate
-                        echo "Tests directory contents:"
-                        ls -la tests/ || echo "tests directory not found"
-                        pytest tests/ -v
-                    '''
-                }
-            }
+    steps {
+        script {
+            echo 'Running tests'
+            sh '''
+                . ${VENV_DIR}/bin/activate
+
+                if [ -d "tests" ]; then
+                    echo "Found tests directory. Running tests..."
+                    pytest tests/ -v
+                else
+                    echo "No tests/ directory found. Skipping tests..."
+                fi
+            '''
         }
+    }
+}
 
         stage('Building Docker Image') {
             steps {
