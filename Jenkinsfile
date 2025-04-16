@@ -33,6 +33,7 @@ pipeline {
                         python3 -m venv ${VENV_DIR}
                         . ${VENV_DIR}/bin/activate
                         python -m pip install --upgrade pip
+                        pip install pytest  # Add this line
                         pip install -e .
                     '''
                 }
