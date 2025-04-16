@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        DOCKER_IMAGE = 'ghcr.io/ahmadmajde22/jenkins-dind'
+        DOCKER_IMAGE = 'ghcr.io/Ahmadmajde22/jenkins-dind'
         DOCKER_TAG = 'latest'
         GHCR_TOKEN = credentials('ghcr-token')
         GITHUB_USERNAME = 'Ahmadmajde22'  // Replace with your GitHub username
@@ -26,19 +26,20 @@ pipeline {
         }
 
         stage('Setting Up Virtual Environment') {
-            steps {
-                script {
-                    echo 'Setting Up Virtual Environment and installing dependencies'
-                    sh '''
-                        python3 -m venv ${VENV_DIR}
-                        . ${VENV_DIR}/bin/activate
-                        python -m pip install --upgrade pip
-                        pip install pytest  # Add this line
-                        pip install -e .
-                    '''
-                }
-            }
+    steps {
+        script {
+            echo 'Setting Up Virtual Environment and installing dependencies'
+            sh '''
+                python3 -m venv ${VENV_DIR}
+                . ${VENV_DIR}/bin/activate
+                python -m pip install --upgrade pip
+                pip install pytest pytest-cov pytest-mock  # Install test dependencies
+                pip install -r requirements.txt || true   # Install project dependencies if requirements.txt exists
+                pip install -e .                         # Install package in editable mode
+            '''
         }
+    }
+}
 
         stage('Run Tests') {
             steps {
