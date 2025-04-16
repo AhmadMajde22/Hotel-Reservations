@@ -15,7 +15,6 @@ class CustomException(Exception):
         line_number = exc_tb.tb_lineno
 
         return f"Error in {file_name} , line {line_number} : {error_message}"
-    
+
     def __str__(self):
         return self.error_message
-
