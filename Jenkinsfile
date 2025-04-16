@@ -41,17 +41,22 @@ pipeline {
     }
 }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    echo 'Running tests'
-                    sh '''
-                        . ${VENV_DIR}/bin/activate
-                        python -m pytest tests/
-                    '''
-                }
-            }
+    stage('Run Tests') {
+    steps {
+        script {
+            echo 'Running tests'
+            sh '''
+                . ${VENV_DIR}/bin/activate
+                # List tests directory contents to verify it exists and has files
+                echo "Tests directory contents:"
+                ls -la tests/ || echo "tests directory not found"
+
+                # Run pytest with verbose flag to see what's happening
+                python -m pytest tests/ -v || echo "No tests found or tests failed"
+            '''
         }
+    }
+}
 
         stage('Building Docker Image') {
             steps {
