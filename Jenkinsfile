@@ -3,37 +3,49 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        GHCR_USER = 'AhmadMajde22'  // GitHub username
-        GHCR_TOKEN = credentials('ghcr-token')  // GitHub token for authentication
-        GHCR_REPO = "ghcr.io/${GHCR_USER}/ml-project"  // GHCR repository path
+        DOCKER_IMAGE = 'ghcr.io/ahmadmajde22/jenkins-dind'
+        DOCKER_TAG = 'latest'
+        GHCR_TOKEN = credentials('ghcr-token')
+        GITHUB_USERNAME = 'Ahmadmajde22'  // Replace with your GitHub username
     }
 
     stages {
-        stage('Cloning GitHub Repo to Jenkins') {
+        stage('Cloning GitHub repo to Jenkins') {
             steps {
                 script {
-                    echo 'Cloning GitHub repo to Jenkins............'
+                    echo 'Cloning GitHub repo to Jenkins'
                     checkout scmGit(
                         branches: [[name: '*/main']],
                         extensions: [],
                         userRemoteConfigs: [[
                             credentialsId: 'github-token',
-                            url: 'https://github.com/data-guru0/MLOPS-COURSE-PROJECT-1.git'
-                        ]]
-                    )
+                            url: 'https://github.com/AhmadMajde22/Hotel-Reservations.git'
+                        ]])
                 }
             }
         }
 
-        stage('Setting up Virtual Environment and Installing Dependencies') {
+        stage('Setting Up Virtual Environment') {
             steps {
                 script {
-                    echo 'Setting up Virtual Environment and Installing Dependencies............'
+                    echo 'Setting Up Virtual Environment and installing dependencies'
                     sh '''
-                    python -m venv ${VENV_DIR}
-                    . ${VENV_DIR}/bin/activate
-                    pip install --upgrade pip
-                    pip install -e .
+                        python3 -m venv ${VENV_DIR}
+                        . ${VENV_DIR}/bin/activate
+                        python -m pip install --upgrade pip
+                        pip install -e .
+                    '''
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    echo 'Running tests'
+                    sh '''
+                        . ${VENV_DIR}/bin/activate
+                        python -m pytest tests/
                     '''
                 }
             }
@@ -42,25 +54,17 @@ pipeline {
         stage('Building Docker Image') {
             steps {
                 script {
-                    echo 'Building Docker Image............'
-                    sh '''
-                    # Build the Docker image
-                    docker build -t ${GHCR_REPO}:latest .
-                    '''
+                    echo 'Building Docker image'
+                    sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
                 }
             }
         }
 
         stage('Login to GitHub Container Registry') {
             steps {
-                withCredentials([string(credentialsId: 'ghcr-token', variable: 'GHCR_TOKEN')]) {
-                    script {
-                        echo 'Logging in to GHCR............'
-                        sh '''
-                        # Log in to GHCR using the token
-                        echo ${GHCR_TOKEN} | docker login ghcr.io -u ${GHCR_USER} --password-stdin
-                        '''
-                    }
+                script {
+                    echo 'Logging in to GitHub Container Registry'
+                    sh 'echo ${GHCR_TOKEN} | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin'
                 }
             }
         }
@@ -68,12 +72,28 @@ pipeline {
         stage('Pushing Docker Image to GHCR') {
             steps {
                 script {
-                    echo 'Pushing Docker Image to GHCR............'
-                    sh '''
-                    # Push the Docker image to GHCR
-                    docker push ${GHCR_REPO}:latest
-                    '''
+                    echo 'Pushing Docker image to GHCR'
+                    sh 'docker push ${DOCKER_IMAGE}:${DOCKER_TAG}'
                 }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline succeeded! Cleaning up...'
+        }
+        failure {
+            echo 'Pipeline failed! Check the logs for details'
+        }
+        always {
+            script {
+                echo 'Cleaning up workspace'
+                sh '''
+                    docker logout ghcr.io
+                    rm -rf ${VENV_DIR}
+                '''
+                cleanWs()
             }
         }
     }
