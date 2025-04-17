@@ -6,6 +6,7 @@ def insert_reservation(data, prediction):
         database="hotel_prediction_db",
         user="postgres",
         password="123456"
+
     )
     cur = conn.cursor()
     query = """

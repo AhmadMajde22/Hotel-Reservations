@@ -1,4 +1,3 @@
-
 # Use the Jenkins image as the base image
 FROM jenkins/jenkins:lts
 
