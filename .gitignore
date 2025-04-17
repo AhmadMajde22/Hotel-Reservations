@@ -2,11 +2,9 @@
 venv/
 mlruns/
 logs/
-MLOPS_PROJECT_1.egg-info/
 Hotel_Reservations.egg-info/
 __pycache__/
 =======
-<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
