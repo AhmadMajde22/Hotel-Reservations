@@ -1,10 +1,13 @@
 pipeline {
     agent any
     environment {
-        VENV_DIR ='venv'
+        VENV_DIR = 'venv'
+        DOCKER_IMAGE = 'ahmadmajde22/hotel-reservation-app'
+        DOCKER_TAG = 'latest'
+        DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials' // Define Jenkins credentials
     }
     stages {
-        stage('Cloning GitHub repo to jenkins') {
+        stage('Cloning GitHub repo to Jenkins') {
             steps {
                 script {
                     echo 'Cloning GitHub repo to Jenkins...'
@@ -16,6 +19,7 @@ pipeline {
                 }
             }
         }
+
         stage('Creating Virtual Environment') {
             steps {
                 script {
@@ -25,6 +29,41 @@ pipeline {
                     . ${VENV_DIR}/bin/activate
                     pip install --upgrade pip
                     pip install -e .
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo 'Building Docker Image...'
+                    sh '''
+                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    '''
+                }
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    echo 'Logging into Docker Hub...'
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh '''
+                        docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    echo 'Pushing Docker Image to Docker Hub...'
+                    sh '''
+                    docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                     '''
                 }
             }
