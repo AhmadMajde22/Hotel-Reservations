@@ -34,8 +34,8 @@ class DataProcessor:
 
             logger.info("Extract The Categorical and numerical features from YAML File")
 
-            cat_cols = self.config["data_processing"]["categorical_columns"]
-            num_cols = self.config["data_processing"]["numerical_columns"]
+            cat_cols = self.config["data_processing"]["categorical_columns"] # type: ignore
+            num_cols = self.config["data_processing"]["numerical_columns"] # type: ignore
 
 
             logger.info("Applying Label Encoding")
@@ -57,7 +57,7 @@ class DataProcessor:
 
             logger.info("Doing Skewness Handling")
 
-            skew_threshold = self.config["data_processing"]["Skewness_threshold"]
+            skew_threshold = self.config["data_processing"]["Skewness_threshold"] # type: ignore
             skewness = df[num_cols].apply(lambda x :x.skew())
 
             for col in skewness[skewness>skew_threshold].index:
@@ -76,7 +76,7 @@ class DataProcessor:
             X = df.drop(columns='booking_status')
             y = df['booking_status']
 
-            Random_state = self.config["data_processing"]["random_state"]
+            Random_state = self.config["data_processing"]["random_state"] # type: ignore
             smote = SMOTE(random_state = Random_state)
 
             X_resample , y_resample = smote.fit_resample(X,y) # type: ignore
@@ -98,7 +98,7 @@ class DataProcessor:
             y = df["booking_status"]
 
 
-            Random_state = self.config["data_processing"]["random_state"]
+            Random_state = self.config["data_processing"]["random_state"] # type: ignore
             model = RandomForestClassifier(random_state=Random_state)
             model.fit(X,y)
             feature_importance = model.feature_importances_
@@ -108,7 +108,7 @@ class DataProcessor:
                 "Importance":feature_importance})
 
             top_features_importance_df=feature_importance_df.sort_values(by='Importance',ascending=False)
-            num_features_to_select = self.config["data_processing"]["no_of_features"]
+            num_features_to_select = self.config["data_processing"]["no_of_features"] # type: ignore
             top_10_features = top_features_importance_df['feature'].head(num_features_to_select).values
 
             logger.info(f"Top 10 Features : {top_10_features}")
