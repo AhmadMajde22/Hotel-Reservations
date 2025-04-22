@@ -6,13 +6,11 @@ from config.path_config import MODEL_OUTPUT_PATH
 
 app = Flask(__name__)
 
-# Load the trained model
 loaded_model = joblib.load(MODEL_OUTPUT_PATH)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "POST":
-        # Retrieve and cast form data
         data = {
             'lead_time': int(request.form['lead_time']),
             'no_of_special_request': int(request.form['no_of_special_request']),
@@ -26,17 +24,14 @@ def index():
             'room_type_reserved': int(request.form['room_type_reserved']),
         }
 
-        # Prepare features for prediction
         features = np.array([[data['lead_time'], data['no_of_special_request'], data['avg_price_per_room'],
                               data['arrival_month'], data['arrival_date'], data['market_segment_type'],
                               data['no_of_week_nights'], data['no_of_weekend_nights'],
                               data['type_of_meal_plan'], data['room_type_reserved']]])
 
-        # Make prediction
         prediction = loaded_model.predict(features)
-        predicted_value = int(prediction[0])  # Convert from NumPy type to Python int
+        predicted_value = int(prediction[0])
 
-        # Store data and prediction in database
         insert_reservation(data, predicted_value)
 
         return render_template('index.html', prediction=predicted_value)
