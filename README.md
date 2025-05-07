@@ -108,22 +108,10 @@ Below are the available features in the dataset:
 
 #### 📦 Installation Steps (Windows)
 
-1. **Download MinIO**
-   - Visit the [MinIO Windows Download Page](https://min.io/download#/windows)
-   - Download the latest MinIO server binary for Windows
+  **Download MinIO**
 
-2. **Create Data Directory**
-
-   ```powershell
-   mkdir D:\minio\data
-   ```
-
-3. **Set Environment Variables**
-
-   ```powershell
-   setx MINIO_ROOT_USER minioadmin
-   setx MINIO_ROOT_PASSWORD minioadmin
-   ```
+- Visit the [MinIO Windows Download Page](https://min.io/download#/windows)
+- Download the latest MinIO server binary for Windows
 
 #### 🚀 Running MinIO Server
 
