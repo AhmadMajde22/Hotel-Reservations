@@ -127,3 +127,47 @@ Below are the available features in the dataset:
    - Default credentials:
      - Username: `minioadmin`
      - Password: `minioadmin`
+
+### 🔄 Data Preprocessing Pipeline
+
+The project implements a comprehensive data preprocessing pipeline (`DataProcessor` class) that handles various aspects of data preparation. Here's an overview of the main preprocessing steps:
+
+#### 1. Basic Preprocessing
+
+- Removes `Booking_ID` column
+- Eliminates duplicate entries
+- Separates features into categorical and numerical columns (defined in config)
+
+#### 2. Categorical Data Handling
+
+- Applies Label Encoding to categorical features
+- Maintains mapping dictionaries for feature value encoding
+- Processes columns like `type_of_meal_plan`, `room_type_reserved`, `market_segment_type`
+
+#### 3. Numerical Data Processing
+
+- Handles skewness in numerical features
+- Applies log transformation when skewness exceeds configured threshold
+- Processes columns like `lead_time`, `no_of_previous_cancellations`
+
+#### 4. Class Imbalance Handling
+
+- Uses SMOTE (Synthetic Minority Over-sampling Technique)
+- Balances the dataset for better model training
+- Creates synthetic samples for minority class
+
+#### 5. Feature Selection
+
+- Employs Random Forest for feature importance ranking
+- Selects top features based on importance scores
+- Reduces dimensionality while maintaining predictive power
+
+#### 6. Data Pipeline Flow
+
+```
+Raw Data → Basic Preprocessing → Categorical Encoding →
+Numerical Processing → Class Balancing → Feature Selection → Processed Data
+
+
+The processed data is saved in the `artifacts/processed` directory, ready for model training.
+```
