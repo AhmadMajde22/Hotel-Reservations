@@ -42,34 +42,34 @@ Below are the available features in the dataset:
 
 ```
 .
-├── artifacts/                  # Stores model files, raw/processed data
-│   ├── models/                # Model files
-│   ├── processed/             # Processed data
+├── artifacts                  # Stores model files, raw/processed data
+│   ├── models                # Model files
+│   ├── processed             # Processed data
 │   └── raw/                   # Raw data
 │
-├── config/                    # Configuration files and parameter settings
+├── config                    # Configuration files and parameter settings
 │   ├── __init__.py           # Initialization script for config
 │   ├── config.yaml           # YAML configuration file
 │   ├── credentials.json      # Credentials for external services
 │   ├── model_params.py       # Model-specific parameter settings
 │   └── path_config.py        # Path configuration for directories
 │
-├── custom_jenkins/           # Jenkins-related files
+├── custom_jenkins          # Jenkins-related files
 │   └── Dockerfile           # Dockerfile for Jenkins container
 │
-├── logs/                    # Application logs
+├── logs                    # Application logs
 │
-├── mlruns/                  # MLflow tracking logs and runs
+├── mlruns                  # MLflow tracking logs and runs
 │
-├── notebook/                # Jupyter notebooks for EDA and testing
+├── notebook                # Jupyter notebooks for EDA and testing
 │   ├── notebook.ipynb      # Jupyter notebook for analysis
 │   └── train.csv           # Training data for the notebook
 │
-├── pipeline/               # Pipeline execution scripts
+├── pipeline               # Pipeline execution scripts
 │   ├── __init__.py        # Initialization script for pipeline
 │   └── training_pipeline.py # Training pipeline script
 │
-├── src/                    # Core source code for ML components
+├── src                    # Core source code for ML components
 │   ├── __init__.py        # Initialization script for src
 │   ├── custom_exception.py # Custom exceptions
 │   ├── data_ingestion.py  # Data ingestion script
@@ -77,14 +77,14 @@ Below are the available features in the dataset:
 │   ├── logger.py          # Custom logging configuration
 │   └── model_training.py  # Model training script
 │
-├── static/                 # Static files for UI
+├── static                 # Static files for UI
 │   ├── background.jpg     # Background image
 │   └── style.css         # CSS styling
 │
-├── templates/             # HTML templates
+├── templates             # HTML templates
 │   └── index.html        # Main HTML template
 │
-├── utils/                # Utility functions
+├── utils                # Utility functions
 │   ├── __init__.py      # Initialization script for utils
 │   └── common_function.py # Common utility functions
 │
