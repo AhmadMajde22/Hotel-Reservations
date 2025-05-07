@@ -171,3 +171,69 @@ Numerical Processing → Class Balancing → Feature Selection → Processed Dat
 
 The processed data is saved in the `artifacts/processed` directory, ready for model training.
 ```
+
+### 🤖 Model Training Pipeline
+
+The project uses LightGBM classifier with MLflow tracking for model training and experimentation. Here's an overview of the training pipeline:
+
+#### 1. Data Loading and Splitting
+
+- Loads processed training and test datasets
+- Separates features (X) and target variable (booking_status)
+- Prepares train-test splits for model training
+
+#### 2. Model Training with LightGBM
+
+- Initializes LightGBM classifier
+- Performs hyperparameter tuning using RandomizedSearchCV
+- Parameters configured in `config/model_params.py`
+- Key hyperparameters include:
+  - Learning rate
+  - Number of leaves
+  - Feature fraction
+  - Bagging fraction
+  - Max depth
+
+#### 3. Model Evaluation
+
+- Calculates key classification metrics:
+  - Accuracy Score
+  - Precision Score
+  - Recall Score
+  - F1 Score
+- Logs all metrics to MLflow for tracking
+
+#### 4. MLflow Integration
+
+- Tracks experiments with MLflow
+- Logs artifacts:
+  - Training dataset
+  - Testing dataset
+  - Final model
+- Records parameters and metrics
+- Enables experiment comparison and model versioning
+
+#### Usage Example
+
+```python
+from src.model_training import ModelTraining
+
+trainer = ModelTraining(
+    train_path=PROCESSED_TRAIN_DATA_PATH,
+    test_path=PROCESSED_TEST_DATA_PATH,
+    model_output_path=MODEL_OUTPUT_PATH
+)
+trainer.run()
+```
+
+#### MLflow UI Access
+
+To view experiments in MLflow UI:
+
+```bash
+mlflow ui --port 5005
+```
+
+Then visit: <http://localhost:5005>
+
+The trained model is saved in the `artifacts/models` directory and can be used for making predictions via the FastAPI service.
