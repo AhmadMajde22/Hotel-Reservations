@@ -45,7 +45,7 @@ Below are the available features in the dataset:
 ├── artifacts                  # Stores model files, raw/processed data
 │   ├── models                # Model files
 │   ├── processed             # Processed data
-│   └── raw/                   # Raw data
+│   └── raw                   # Raw data
 │
 ├── config                    # Configuration files and parameter settings
 │   ├── __init__.py           # Initialization script for config
