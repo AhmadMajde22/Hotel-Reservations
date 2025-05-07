@@ -237,3 +237,68 @@ mlflow ui --port 5005
 Then visit: <http://localhost:5005>
 
 The trained model is saved in the `artifacts/models` directory and can be used for making predictions via the FastAPI service.
+
+
+
+### 🔄 Training Pipeline
+
+The project implements an end-to-end training pipeline that orchestrates data ingestion, processing, and model training. The pipeline is defined in `pipeline/training_pipeline.py`.
+
+#### Pipeline Components
+
+1. **Data Ingestion**
+
+```python
+# Initialize and run data ingestion
+config = read_yaml(CONFIG_PATH)
+credentials = read_json_credentials(CREDENTIALS_PATH)
+data_ingestion = DataIngestion(config=config, credentials=credentials)
+data_ingestion.run()
+```
+
+2. **Data Processing**
+
+```python
+# Process the ingested data
+processor = DataProcessor(
+    TRAIN_FILE_PATH,
+    TEST_FILE_PATH,
+    PROCESSED_DIR,
+    CONFIG_PATH
+)
+processor.process()
+```
+
+3. **Model Training**
+
+```python
+# Train and evaluate the model
+trainer = ModelTraining(
+    train_path=PROCESSED_TRAIN_DATA_PATH,
+    test_path=PROCESSED_TEST_DATA_PATH,
+    model_output_path=MODEL_OUTPUT_PATH
+)
+trainer.run()
+```
+
+#### Running the Pipeline
+
+To execute the complete training pipeline:
+
+```bash
+python pipeline/training_pipeline.py
+```
+
+This will:
+
+- Download data from MinIO storage
+- Process and prepare the data for training
+- Train the LightGBM model with hyperparameter tuning
+- Log experiments to MLflow
+- Save the trained model to the artifacts directory
+
+The pipeline uses configuration files to manage parameters and paths:
+
+- `config/config.yaml`: General configuration
+- `config/credentials.json`: MinIO credentials
+- `config/path_config.py`: System paths
