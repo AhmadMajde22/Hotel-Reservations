@@ -17,9 +17,7 @@ This solution supports several key business areas for hotel operators:
 
 The online hotel reservation channels have dramatically changed booking possibilities and customers’ behavior. A significant number of hotel reservations are canceled or result in no-shows. Common reasons for cancellations include changes in plans or scheduling conflicts, often facilitated by flexible cancellation policies. While this flexibility benefits guests, it introduces challenges and potential revenue loss for hotel operators.
 
-
 You can access the dataset here: [Hotel Reservations Classification Dataset](https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset/data)
-
 
 Below are the available features in the dataset:
 
@@ -103,3 +101,41 @@ Below are the available features in the dataset:
 ├── requirements.txt  # Project dependencies
 └── setup.py         # Package installation script
 ```
+
+### 🔽 Data Ingestion with MinIO
+
+[MinIO](https://min.io/) serves as our local S3-compatible object storage service for managing datasets in this project.
+
+#### 📦 Installation Steps (Windows)
+
+1. **Download MinIO**
+   - Visit the [MinIO Windows Download Page](https://min.io/download#/windows)
+   - Download the latest MinIO server binary for Windows
+
+2. **Create Data Directory**
+
+   ```powershell
+   mkdir D:\minio\data
+   ```
+
+3. **Set Environment Variables**
+
+   ```powershell
+   setx MINIO_ROOT_USER minioadmin
+   setx MINIO_ROOT_PASSWORD minioadmin
+   ```
+
+#### 🚀 Running MinIO Server
+
+1. **Start the Server**
+
+   ```powershell
+   minio server ~/minio --console-address ":9001"
+   ```
+
+2. **Access MinIO**
+   - Console URL: <http://localhost:9001>
+   - API Endpoint: <http://localhost:9000>
+   - Default credentials:
+     - Username: `minioadmin`
+     - Password: `minioadmin`
