@@ -40,62 +40,62 @@ Below are the available features in the dataset:
 
 ## 📁 Project Structure
 
-The project is organized into the following directory structure:
-
+```
+.
 ├── artifacts/                  # Stores model files, raw/processed data
-│   ├── models/                 # Model files
-│   ├── processed/              # Processed data
-│   └── raw/                    # Raw data
+│   ├── models/                # Model files
+│   ├── processed/             # Processed data
+│   └── raw/                   # Raw data
 │
-├── config/                     # Configuration files and parameter settings
-│   ├── init.py                 # Initialization script for config
-│   ├── config.yaml             # YAML configuration file
-│   ├── credentials.json        # Credentials for accessing external services
-│   ├── model_params.py         # Model-specific parameter settings
-│   └── path_config.py          # Path configuration for directories and files
+├── config/                    # Configuration files and parameter settings
+│   ├── __init__.py           # Initialization script for config
+│   ├── config.yaml           # YAML configuration file
+│   ├── credentials.json      # Credentials for external services
+│   ├── model_params.py       # Model-specific parameter settings
+│   └── path_config.py        # Path configuration for directories
 │
-├── custom_jenkins/             # Jenkins-related files
-│   └── Dockerfile              # Dockerfile for Jenkins container
+├── custom_jenkins/           # Jenkins-related files
+│   └── Dockerfile           # Dockerfile for Jenkins container
 │
-├── logs/                       # Application logs
+├── logs/                    # Application logs
 │
-├── mlruns/                     # MLflow tracking logs and runs
-│   └── ...                     # Auto-generated experiment artifacts
+├── mlruns/                  # MLflow tracking logs and runs
 │
-├── notebook/                   # Jupyter notebooks for exploratory data analysis (EDA) and testing
-│   ├── notebook.ipynb          # Jupyter notebook for analysis
-│   └── train.csv               # Training data for the notebook
+├── notebook/                # Jupyter notebooks for EDA and testing
+│   ├── notebook.ipynb      # Jupyter notebook for analysis
+│   └── train.csv           # Training data for the notebook
 │
-├── pipeline/                   # Pipeline execution scripts
-│   ├── init.py                 # Initialization script for pipeline
-│   └── training_pipeline.py    # Training pipeline script
+├── pipeline/               # Pipeline execution scripts
+│   ├── __init__.py        # Initialization script for pipeline
+│   └── training_pipeline.py # Training pipeline script
 │
-├── src/                        # Core source code for ML components
-│   ├── init.py                 # Initialization script for src
-│   ├── custom_exception.py     # Custom exceptions used across the project
-│   ├── data_ingestion.py       # Script for data ingestion
-│   ├── data_preprocessing.py   # Data preprocessing script
-│   ├── logger.py               # Custom logging configuration
-│   └── model_training.py       # Script for model training
+├── src/                    # Core source code for ML components
+│   ├── __init__.py        # Initialization script for src
+│   ├── custom_exception.py # Custom exceptions
+│   ├── data_ingestion.py  # Data ingestion script
+│   ├── data_preprocessing.py # Data preprocessing script
+│   ├── logger.py          # Custom logging configuration
+│   └── model_training.py  # Model training script
 │
-├── static/                     # Static files for UI
-│   ├── background.jpg          # Background image for the UI
-│   └── style.css               # CSS for styling the UI
+├── static/                 # Static files for UI
+│   ├── background.jpg     # Background image
+│   └── style.css         # CSS styling
 │
-├── templates/                  # HTML templates for the web interface
-│   └── index.html              # Main HTML template for the app
+├── templates/             # HTML templates
+│   └── index.html        # Main HTML template
 │
-├── utils/                      # Utility functions
-│   ├── init.py                 # Initialization script for utils
-│   └── common_function.py      # Common functions used across the project
+├── utils/                # Utility functions
+│   ├── __init__.py      # Initialization script for utils
+│   └── common_function.py # Common utility functions
 │
-├── .env                        # Environment variables
-├── .gitignore                  # Git ignored files
-├── application.py              # FastAPI app entrypoint
-├── db.py                       # Database connection logic
-├── docker-compose.yml          # Docker orchestration file
-├── Dockerfile                  # Docker image definition
-├── Jenkinsfile                 # Jenkins pipeline configuration
-├── README.md                   # Project documentation
-├── requirements.txt            # Project dependencies
-└── setup.py                    # Package installation script
+├── .env                  # Environment variables
+├── .gitignore           # Git ignored files
+├── application.py       # FastAPI app entrypoint
+├── db.py               # Database connection logic
+├── docker-compose.yml  # Docker orchestration file
+├── Dockerfile         # Docker image definition
+├── Jenkinsfile        # Jenkins pipeline configuration
+├── README.md         # Project documentation
+├── requirements.txt  # Project dependencies
+└── setup.py         # Package installation script
+```
