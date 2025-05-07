@@ -17,6 +17,10 @@ This solution supports several key business areas for hotel operators:
 
 The online hotel reservation channels have dramatically changed booking possibilities and customers’ behavior. A significant number of hotel reservations are canceled or result in no-shows. Common reasons for cancellations include changes in plans or scheduling conflicts, often facilitated by flexible cancellation policies. While this flexibility benefits guests, it introduces challenges and potential revenue loss for hotel operators.
 
+
+You can access the dataset here: [Hotel Reservations Classification Dataset](https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset/data)
+
+
 Below are the available features in the dataset:
 
 - `Booking_ID`: Unique identifier for each booking
