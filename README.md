@@ -40,6 +40,27 @@ Below are the available features in the dataset:
 - `no_of_special_requests`: Number of special requests made by the customer
 - `booking_status`: Target variable indicating if the booking was canceled
 
+### 🛠️ Create and Activate a Virtual Environment
+
+Before running the project, it's recommended to create a virtual environment to isolate dependencies.
+
+#### 🪟 On Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 📦 Install Dependencies
+
+With the virtual environment activated, install the required packages using the following command:
+
+```bash
+pip install -r requirements.txt
+or
+pip install -e .
+```
+
 ## 📁 Project Structure
 
 ```
