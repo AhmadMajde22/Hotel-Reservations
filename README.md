@@ -473,10 +473,14 @@ services:
 volumes:
   postgres_data:
 
+```
+
+### 🏗️ Building and Running the Docker Compose
 
 ### 🔁 CI/CD Pipeline (Jenkins)
 
 This project uses a Jenkins pipeline to automate the following tasks:
+
 - Clone the GitHub repository
 - Set up a virtual environment and install dependencies
 - Build a Docker image
