@@ -61,6 +61,22 @@ or
 pip install -e .
 ```
 
+### requirements
+
+```text
+pandas==2.2.3
+numpy==2.2.4
+minio==7.2.15
+scikit-learn==1.6.1
+pyyaml==6.0.2
+imbalanced-learn==0.13.0
+lightgbm==4.6.0
+scipy==1.15.2
+mlflow==2.21.3
+flask==3.1.0
+psycopg2-binary==2.9.10
+```
+
 ## 📁 Project Structure
 
 ```
