@@ -238,8 +238,6 @@ Then visit: <http://localhost:5005>
 
 The trained model is saved in the `artifacts/models` directory and can be used for making predictions via the FastAPI service.
 
-
-
 ### 🔄 Training Pipeline
 
 The project implements an end-to-end training pipeline that orchestrates data ingestion, processing, and model training. The pipeline is defined in `pipeline/training_pipeline.py`.
@@ -302,3 +300,87 @@ The pipeline uses configuration files to manage parameters and paths:
 - `config/config.yaml`: General configuration
 - `config/credentials.json`: MinIO credentials
 - `config/path_config.py`: System paths
+
+### 💾 Database Integration
+
+The project uses PostgreSQL to store hotel reservation predictions and their outcomes. Database operations are handled in `db.py`.
+
+#### Database Configuration
+
+Create a `.env` file with the following database credentials:
+
+```ini
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=hotel_prediction_db
+DB_USER=postgres
+DB_PASSWORD=123456
+```
+
+#### Database Schema
+
+The `reservations` table structure:
+
+```sql
+CREATE TABLE reservations (
+    id SERIAL PRIMARY KEY,
+    lead_time INTEGER,
+    no_of_special_request INTEGER,
+    avg_price_per_room FLOAT,
+    arrival_month INTEGER,
+    arrival_date INTEGER,
+    market_segment_type INTEGER,
+    no_of_week_nights INTEGER,
+    no_of_weekend_nights INTEGER,
+    type_of_meal_plan INTEGER,
+    room_type_reserved INTEGER,
+    prediction INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### **Create Database and Table**
+
+   ```bash
+   psql -U postgres
+   CREATE DATABASE hotel_prediction_db;
+   \c hotel_prediction_db
+   ```
+
+   Then run the schema SQL above.
+
+#### Features
+
+- Secure connection handling with environment variables
+- Automatic connection closing with context managers
+- Error handling and logging
+- Parameterized queries for SQL injection prevention
+- Default fallback values for configuration
+
+### 🌐 Flask Web Application
+
+The project includes a Flask web application (`application.py`) that serves predictions from the trained model.
+
+#### Application Features
+
+- RESTful endpoint for hotel booking cancellation predictions
+- Form-based input for booking details
+- Database integration for storing predictions
+- Model inference using joblib
+
+#### API Endpoint
+
+**Endpoint:** `/`
+
+- **Methods:** GET, POST
+- **Input Features:**
+  - `lead_time`: Time between booking and arrival
+  - `no_of_special_request`: Number of special requests
+  - `avg_price_per_room`: Average price per room
+  - `arrival_month`: Month of arrival
+  - `arrival_date`: Date of arrival
+  - `market_segment_type`: Market segment type (encoded)
+  - `no_of_week_nights`: Number of weekday nights
+  - `no_of_weekend_nights`: Number of weekend nights
+  - `type_of_meal_plan`: Type of meal plan (encoded)
+  - `room_type_reserved`: Room type (encoded)
