@@ -384,3 +384,91 @@ The project includes a Flask web application (`application.py`) that serves pred
   - `no_of_weekend_nights`: Number of weekend nights
   - `type_of_meal_plan`: Type of meal plan (encoded)
   - `room_type_reserved`: Room type (encoded)
+
+### 🐳 Docker Setup
+
+This project is containerized using Docker to ensure consistent development and deployment environments.
+
+#### Dockerfile Structure
+
+Our Dockerfile uses a multi-stage approach for optimal production deployment:
+
+```dockerfile
+# Base image
+FROM python:slim
+
+# Environment configuration
+ENV PYTHONDONTWRITEBYTECODE=1  # Prevents Python from writing pyc files
+ENV PYTHONUNBUFFERED=1         # Ensures Python output is sent straight to terminal
+
+# Working directory
+WORKDIR /app
+
+# System dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \    # Required for LightGBM
+    libpq-dev \   # PostgreSQL development headers
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Dependencies installation
+COPY [requirements.txt](http://_vscodecontentref_/0) .
+RUN pip install --no-cache-dir -r [requirements.txt](http://_vscodecontentref_/1)
+
+# Application code
+COPY . .
+EXPOSE 5000
+CMD ["python", "application.py"]
+```
+
+### 🛠️ Building the Image
+
+```bash
+docker build -t hotel-reservation:latest .
+```
+
+### 🏃 Running the Container
+
+```bash
+docker run -d -p 5000:5000 hotel-reservation:latest
+```
+
+### 🧱 Docker Setup
+
+The project uses **Docker Compose** to orchestrate the FLASK app and a PostgreSQL database.
+
+#### 📄 `docker-compose.yml`
+
+```yaml
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
