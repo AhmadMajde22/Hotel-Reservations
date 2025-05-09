@@ -57,10 +57,15 @@ With the virtual environment activated, install the required packages using the 
 
 ```bash
 pip install -r requirements.txt
-or
-pip install -e .
 ```
 
+or
+
+```bash
+pip install -r requirements.txt --no-cache-dir
+```
+
+```
 ### requirements
 
 ```text
