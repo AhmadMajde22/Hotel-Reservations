@@ -612,6 +612,7 @@ pipeline {
         }
     }
 }
+```
 
 ### 🎥 Demo Video
 
@@ -620,5 +621,6 @@ Check out a demonstration of the Hotel Reservation MLOps Project in action:
 [![Hotel Reservation MLOps Demo](https://img.youtube.com/vi/ZRFNb0MvJ44/0.jpg)](https://youtu.be/ZRFNb0MvJ44)
 
 The demo showcases:
+
 - Flask web application for predictions
 - Database integration with PostgreSQL
