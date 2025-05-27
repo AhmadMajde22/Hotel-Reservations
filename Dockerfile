@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project into the container
 COPY . .
 
-# Expose application port (assuming 5000)
+# Expose application port (assuming 9000)
 EXPOSE 9000
 
 # Set the entrypoint to run your application
