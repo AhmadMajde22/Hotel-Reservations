@@ -14,7 +14,7 @@ pipeline {
                     checkout scmGit(
                         branches: [[name: '*/main']],
                         extensions: [],
-                        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/AhmadMajde22/Hotel-Reservations.git']])
+                        userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/AhmadMajde22/Hotel-Reservations.git']]
                     )
                 }
             }
