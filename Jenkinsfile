@@ -4,7 +4,7 @@ pipeline {
         VENV_DIR = 'venv'
         DOCKER_IMAGE = 'ahmadmajde22/hotel-reservation-app'
         DOCKER_TAG = 'latest'
-        DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials' // Define Jenkins credentials
+        DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials' // Jenkins credentials ID
     }
     stages {
         stage('Cloning GitHub repo to Jenkins') {
@@ -14,7 +14,10 @@ pipeline {
                     checkout scmGit(
                         branches: [[name: '*/main']],
                         extensions: [],
-                        userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/AhmadMajde22/Hotel-Reservations.git']]
+                        userRemoteConfigs: [[
+                            credentialsId: 'github-token',
+                            url: 'https://github.com/AhmadMajde22/Hotel-Reservations.git'
+                        ]]
                     )
                 }
             }
@@ -46,30 +49,24 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Login to Docker Hub') {
             steps {
                 script {
-                    echo 'Building Docker Image...'
-                    sh '''
-                    export DOCKER_BUILDKIT=0
-                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                    '''
+                    echo 'Logging into Docker Hub...'
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'docker-hub-credentials',
+                            usernameVariable: 'DOCKER_USERNAME',
+                            passwordVariable: 'DOCKER_PASSWORD'
+                        )
+                    ]) {
+                        sh '''
+                        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                        '''
+                    }
                 }
             }
         }
-
-        stage('Login to Docker Hub') {
-    steps {
-        script {
-            echo 'Logging into Docker Hub...'
-            withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                sh '''
-                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                '''
-            }
-        }
-    }
-}
 
         stage('Push Docker Image to Docker Hub') {
             steps {
