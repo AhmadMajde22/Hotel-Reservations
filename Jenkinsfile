@@ -39,6 +39,19 @@ pipeline {
                 script {
                     echo 'Building Docker Image...'
                     sh '''
+                    export DOCKER_BUILDKIT=0
+                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo 'Building Docker Image...'
+                    sh '''
+                    export DOCKER_BUILDKIT=0
                     docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                     '''
                 }
